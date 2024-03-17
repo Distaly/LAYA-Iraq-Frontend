@@ -244,6 +244,7 @@
 <script>
 import { locale, password } from '@/mixins'
 import PasswordInput from '@/components/helpers/password-input.vue'
+import http from 'axios'
 
 export default {
   name: 'Register',

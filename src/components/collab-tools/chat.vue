@@ -103,6 +103,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { locale } from '@/mixins'
 import Jitsi from '@/components/collab-tools/jitsi'
+import http from 'axios'
 
 require('dotenv').config()
 

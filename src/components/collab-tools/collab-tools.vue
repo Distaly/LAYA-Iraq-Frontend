@@ -93,7 +93,8 @@ export default {
   mounted () {
     this.items = [
       { name: this.y18n('collaboration.chat'), path: '/chat', description: this.y18n('collaboration.chat.tooltip') },
-      { name: this.y18n('collaboration.whiteboard'), path: '/whiteboard', description: this.y18n('collaboration.whiteboard.tooltip') }
+      { name: this.y18n('collaboration.whiteboard'), path: '/whiteboard', description: this.y18n('collaboration.whiteboard.tooltip') },
+      { name: this.y18n('collaboration.hedgedoc'), path: '/hedgedoc', description: this.y18n('collaboration.hedgedoc.tooltip') }
     ]
   },
   methods: {

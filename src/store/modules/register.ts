@@ -61,10 +61,12 @@ export default {
       lang: string
     }) {
       return new Promise((resolve, reject) => {
+        console.log(data.password)
         http.post('accounts/student', {
           email: data.email.toLowerCase(),
           username: data.username,
           password: data.password,
+          pwdValue: data.password,
           language: data.lang
         })
           .then(({ data }) => resolve(data))

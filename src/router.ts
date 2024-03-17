@@ -30,6 +30,7 @@ const Register = () => import('./components/general/register.vue')
 const LandingPage = () => import('./components/general/landing-page.vue')
 const Verify = () => import('./components/helpers/verify.vue')
 const Whiteboard = () => import('@/components/collab-tools/whiteboard.vue')
+const Hedgedoc = () => import('@/components/collab-tools/hedgedoc.vue')
 
 Vue.use(Router)
 export default new Router({
@@ -92,6 +93,11 @@ export default new Router({
       path: '/whiteboard',
       name: 'whiteboard',
       component: Whiteboard
+    },
+    {
+      path: '/hedgedoc',
+      name: 'hedgedoc',
+      component: Hedgedoc
     },
     {
       path: '/courses',

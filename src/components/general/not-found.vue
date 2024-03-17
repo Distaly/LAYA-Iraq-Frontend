@@ -7,14 +7,19 @@
 <template>
   <main>
     <div class="container">
-      The URL you entered doesn't exist on this server. <a href="/">go back to home</a>
+      The URL you entered doesn't exist on this server. <a href="/">{{ y18n('homeRedirect') }}</a>
     </div>
   </main>
 </template>
 
 <script>
+import { locale } from '@/mixins'
 export default {
-  name: 'NotFound'
+  name: 'NotFound',
+
+  mixins: [
+    locale
+  ]
 }
 </script>
 
