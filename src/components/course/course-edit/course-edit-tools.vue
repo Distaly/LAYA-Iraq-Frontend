@@ -38,6 +38,8 @@
 
     <course-language-change @changedLanguage="$emit('saveChanges')"></course-language-change>
 
+    <course-hedgedoc-share @sharedDoc="$emit('saveChanges')"></course-hedgedoc-share>
+
     <course-keywords-change @changedKeywords="$emit('saveChanges')"></course-keywords-change>
 
     <course-abstract-change @changedAbstract="$emit('saveChanges')"></course-abstract-change>
@@ -75,10 +77,12 @@ import {
   CourseRename
 } from '@/components/course/course-edit'
 import { locale, routes } from '@/mixins'
+import CourseHedgedocShare from '@/components/course/course-edit/course-hedgedoc-share.vue'
 
 export default {
   name: 'CourseEditTools',
   components: {
+    CourseHedgedocShare,
     CourseFeedbackDownload,
     CourseAuthornameChange,
     CourseBlockNew,

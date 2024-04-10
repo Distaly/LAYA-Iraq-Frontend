@@ -145,11 +145,16 @@
                     v-if="!loading"
                     class="note-cta"
                   >
-                    <router-link
-                      :to="linkToCourse(note)"
-                    >
-                      {{ y18n(`notifications.${note.type}.cta`) }}
-                    </router-link>
+                    <div v-if="note.type !== 'hedgedoc'">
+                      <router-link
+                        :to="linkToCourse(note)"
+                      >
+                        {{ y18n(`notifications.${note.type}.cta`) }}
+                      </router-link>
+                    </div>
+                    <div v-else>
+                      <a :href="note.data.courseId">{{ y18n(`notifications.${note.type}.cta`) }}</a>
+                    </div>
                   </span>
                   <span v-else><i class="fas fa-spinner fa-spin"></i></span>
                 </b-card>
