@@ -48,6 +48,24 @@ Author: pj
             @keyup.enter="handleOk"
           >
         </p>
+        <div
+          v-for="(user, index) in listOfUser"
+          :key="user.name"
+        >
+          <input
+            id="hedgedoc-list"
+            v-model="listOfUser[index].ticked"
+            :value="listOfUser[index].name"
+            class="mr-2 ml-2"
+            type="checkbox"
+          >
+          <label
+            for="course-enrollment"
+            class="col-form-label"
+          >
+            {{ user.userName }}
+          </label>
+        </div>
       </form>
     </b-modal>
     <div
@@ -66,6 +84,8 @@ import axios from 'axios'
 
 export default {
   name: 'CourseHedgedocShare',
+  components: {
+  },
 
   mixins: [
     locale
@@ -73,12 +93,37 @@ export default {
 
   data () {
     return {
-      shareDoc: ''
+      shareDoc: '',
+      listOfUser: [
+      ]
     }
   },
 
   computed: {
     ...mapGetters(['course'])
+  },
+
+  mounted () {
+    this.$nextTick(function () {
+      const vm = this
+      axios.get('/enrollments/getAllByCourseId', {
+        params: {
+          courseId: this.course.courseId
+        }
+      }).then(function (response) {
+        const users = JSON.parse(JSON.stringify(response.data))
+        for (let i = 0; i < users['subs'].length; i++) {
+          axios.get(`/accounts/${users['subs'][i].studentId}`).then(function (response) {
+            console.log(response.data)
+            vm.listOfUser.push({
+              name: users['subs'][i].studentId,
+              ticked: false,
+              userName: response.data['username']
+            })
+          })
+        }
+      })
+    })
   },
 
   methods: {
@@ -88,7 +133,11 @@ export default {
      */
     publishNotification (e) {
       e.preventDefault()
-      console.log(this.course.courseId)
+      console.log(this.listOfUser.length)
+      console.log(this.listOfUser)
+      for (let i = 0; i < this.listOfUser.length; i++) {
+        console.log(this.listOfUser[i].ticked)
+      }
       const docId = this.shareDoc
       axios.get('/enrollments/getAllByCourseId', {
         params: {
@@ -97,6 +146,7 @@ export default {
       }).then(function (response) {
         const users = JSON.parse(JSON.stringify(response.data))
         for (let i = 0; i < users['subs'].length; i++) {
+          console.log(users['subs'][i])
           const user = users['subs'][i].studentId
           const body = `{
           "userId": ` + user + `,

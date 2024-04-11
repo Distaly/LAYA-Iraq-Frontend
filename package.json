@@ -36,6 +36,8 @@
     "vue": "^2.7.14",
     "vue-auth-image": "^0.0.3",
     "vue-ls": "^3.2.2",
+    "vue-multi-select": "^4.6.0",
+    "vue-multiselect": "^3.0.0",
     "vue-password-strength-meter": "^1.7.2",
     "vue-rate-it": "^2.1.0",
     "vue-router": "^3.6.5",
