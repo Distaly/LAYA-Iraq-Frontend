@@ -54,8 +54,8 @@ Author: pj
         >
           <input
             id="hedgedoc-list"
-            v-model="listOfUser[index].ticked"
-            :value="listOfUser[index].name"
+            v-model="user.ticked"
+            :value="user.name"
             class="mr-2 ml-2"
             type="checkbox"
           >
@@ -114,7 +114,7 @@ export default {
         const users = JSON.parse(JSON.stringify(response.data))
         for (let i = 0; i < users['subs'].length; i++) {
           axios.get(`/accounts/${users['subs'][i].studentId}`).then(function (response) {
-            console.log(response.data)
+            console.log(JSON.stringify(users['subs'][i]))
             vm.listOfUser.push({
               name: users['subs'][i].studentId,
               ticked: false,
@@ -133,39 +133,27 @@ export default {
      */
     publishNotification (e) {
       e.preventDefault()
-      console.log(this.listOfUser.length)
-      console.log(this.listOfUser)
       for (let i = 0; i < this.listOfUser.length; i++) {
-        console.log(this.listOfUser[i].ticked)
-      }
-      const docId = this.shareDoc
-      axios.get('/enrollments/getAllByCourseId', {
-        params: {
-          courseId: this.course.courseId
-        }
-      }).then(function (response) {
-        const users = JSON.parse(JSON.stringify(response.data))
-        for (let i = 0; i < users['subs'].length; i++) {
-          console.log(users['subs'][i])
-          const user = users['subs'][i].studentId
-          const body = `{
-          "userId": ` + user + `,
-          "type": "hedgedoc",
-          "data": {
-            "courseId": "` + 'localhost' + ':' + 3000 + '/' + docId + `"
+        if (this.listOfUser[i].ticked) {
+          console.log('user is ticked: ' + JSON.stringify(this.listOfUser[i]))
+          const body = {
+            userId: this.listOfUser[i].name,
+            type: 'hedgedoc',
+            data: {
+              courseId: 'http://localhost' + ':' + 3000 + '/' + this.shareDoc
+            }
           }
-      }`
-          axios.post('/notifications', body).then(function (response) {
-            console.log(response)
+          axios.post('/notifications', JSON.stringify(body), {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(function (response) {
           })
             .catch(function (error) {
               console.log(error)
             })
         }
-      })
-        .catch(function (error) {
-          console.log(error)
-        })
+      }
       this.$nextTick(() => {
         this.$bvModal.hide('author-share-hedgedoc-course')
       })
