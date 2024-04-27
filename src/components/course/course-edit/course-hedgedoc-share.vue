@@ -49,7 +49,7 @@ Author: pj
           >
         </p>
         <div
-          v-for="(user, index) in listOfUser"
+          v-for="(user) in listOfUser"
           :key="user.name"
         >
           <input
@@ -135,19 +135,18 @@ export default {
       e.preventDefault()
       for (let i = 0; i < this.listOfUser.length; i++) {
         if (this.listOfUser[i].ticked) {
-          console.log('user is ticked: ' + JSON.stringify(this.listOfUser[i]))
-          const body = {
-            userId: this.listOfUser[i].name,
-            type: 'hedgedoc',
-            data: {
-              courseId: 'http://localhost' + ':' + 3000 + '/' + this.shareDoc
-            }
-          }
-          axios.post('/notifications', JSON.stringify(body), {
+          axios.post('/notifications/hedgedocNotify', '', {
             headers: {
               'Content-Type': 'application/json'
+            },
+            params: {
+              shareDoc: this.shareDoc,
+              userId: this.listOfUser[i].name
             }
           }).then(function (response) {
+            if (!response.data) {
+              alert('Failed!')
+            }
           })
             .catch(function (error) {
               console.log(error)
